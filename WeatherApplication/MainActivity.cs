@@ -2,6 +2,7 @@
 using Android.Widget;
 using Android.OS;
 using System;
+using WeatherApplication.Services;
 
 namespace WeatherApplication
 {
@@ -16,6 +17,10 @@ namespace WeatherApplication
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+            //  Creating our services and models
+
+            requestHandler = new RequestHandler();
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
@@ -35,11 +40,11 @@ namespace WeatherApplication
             {
                 if (fahren.Checked)
                 {
-                    userInput.Text = "Fahrenheit";
+                    result.Text = requestHandler.FetchDataFromInputAsync(userInput.Text.ToString(), true);
                 }
                 else
                 {
-                    userInput.Text = "Celsius";
+                    result.Text = requestHandler.FetchDataFromInputAsync(userInput.Text.ToString(), false);
                 }
             };
 
