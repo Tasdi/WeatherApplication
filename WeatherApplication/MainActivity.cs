@@ -19,13 +19,13 @@ namespace WeatherApplication
         {
             base.OnCreate(savedInstanceState);
 
-            //  Creating our services and models
-
+            //Initializing class that will handle requests from user
             requestHandler = new RequestHandler();
 
-            // Set our view from the "main" layout resource
+            // Set the view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
+            // Initializing components
             userInput = FindViewById<EditText>(Resource.Id.cityInput);
 
             celsius = FindViewById<CheckBox>(Resource.Id.celsius);
@@ -36,12 +36,14 @@ namespace WeatherApplication
 
             result = FindViewById<TextView>(Resource.Id.resultTxt);
 
-            // Change to searchBtn.Click
+            // Eventhandler, invoked when user presses "Search" button
             FindViewById<Button>(Resource.Id.searchBtn).Click += (o, e) =>
             {
+                // Reg expressions to check whether input is allowed or not
                 string checkInteger = @"\d+";
                 string checkSpecialCharacter = @"[@#$%&*+\-_(),+':;?.,![\]\s\\/]+$";
 
+                // If input contains invalid characters, let the user know and retry
                 if (userInput.Text == "" || Regex.Match(userInput.Text, checkInteger).Success || 
                     Regex.Match(userInput.Text, checkSpecialCharacter).Success) 
                 {
@@ -49,6 +51,7 @@ namespace WeatherApplication
                     return;
                 }
 
+                // 
                 if (fahren.Checked)
                 {
                     result.Text = requestHandler.FetchDataFromInputAsync(userInput.Text.ToString(), true);
@@ -59,25 +62,24 @@ namespace WeatherApplication
                 }
             };
 
+            // Toggle between Fahrenheit and Celsius checkboxes
             FindViewById<CheckBox>(Resource.Id.celsius).Click += (e, o) =>
             {
                 if (celsius.Checked)
                 {
-                    Console.WriteLine(celsius.Checked);
                     fahren.Checked = false;
                 }
                 else
                 {
-                    Console.WriteLine(celsius.Checked);
                     fahren.Checked = true;
                 }
             };
 
+            // Toggle between Fahrenheit and Celsius checkboxes
             FindViewById<CheckBox>(Resource.Id.fahrenheit).Click += (e, o) =>
             {
                 if (fahren.Checked)
                 {
-                    Console.WriteLine(fahren.Checked);
                     celsius.Checked = false;
                 }
                 else
