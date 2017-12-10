@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Android.App;
+using Android.Content;
+using Android.OS;
+using Android.Runtime;
+using Android.Views;
+using Android.Widget;
+
+namespace WeatherApplication.Services
+{
+    public class RequestHandler : IRequestHandler
+    {
+        public RequestHandler()
+        {
+        }
+
+        public string FetchDataFromInputAsync(string cityName, bool checkDegree)
+        {
+            if (checkDegree)
+            {
+                return $"city name is {cityName} and the degree is farenheit";
+            }
+            else
+            {
+                return $"city name is {cityName} and the degree is celsuis";
+            }
+        }
+    }
+}

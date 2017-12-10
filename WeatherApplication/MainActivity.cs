@@ -2,6 +2,7 @@
 using Android.Widget;
 using Android.OS;
 using System;
+using WeatherApplication.Services;
 
 namespace WeatherApplication
 {
@@ -10,10 +11,16 @@ namespace WeatherApplication
     {
         CheckBox celsius, fahren;
         EditText userInput;
+        TextView result;
+        IRequestHandler requestHandler;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+            //  Creating our services and models
+
+            requestHandler = new RequestHandler();
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
@@ -26,15 +33,18 @@ namespace WeatherApplication
             fahren = FindViewById<CheckBox>(Resource.Id.fahrenheit);
             fahren.Checked = false;
 
+            result = FindViewById<TextView>(Resource.Id.resultTxt);
+
+            // Change to searchBtn.Click
             FindViewById<Button>(Resource.Id.searchBtn).Click += (o, e) =>
             {
                 if (fahren.Checked)
                 {
-                    userInput.Text = "Fahrenheit";
+                    result.Text = requestHandler.FetchDataFromInputAsync(userInput.Text.ToString(), true);
                 }
                 else
                 {
-                    userInput.Text = "Celsius";
+                    result.Text = requestHandler.FetchDataFromInputAsync(userInput.Text.ToString(), false);
                 }
             };
 
