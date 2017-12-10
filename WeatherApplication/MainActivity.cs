@@ -3,6 +3,7 @@ using Android.Widget;
 using Android.OS;
 using System;
 using WeatherApplication.Services;
+using System.Text.RegularExpressions;
 
 namespace WeatherApplication
 {
@@ -38,6 +39,16 @@ namespace WeatherApplication
             // Change to searchBtn.Click
             FindViewById<Button>(Resource.Id.searchBtn).Click += (o, e) =>
             {
+                string checkInteger = @"\d+";
+                string checkSpecialCharacter = @"[@#$%&*+\-_(),+':;?.,![\]\s\\/]+$";
+
+                if (userInput.Text == "" || Regex.Match(userInput.Text, checkInteger).Success || 
+                    Regex.Match(userInput.Text, checkSpecialCharacter).Success) 
+                {
+                    result.Text = "Invalid input. Please try again";
+                    return;
+                }
+
                 if (fahren.Checked)
                 {
                     result.Text = requestHandler.FetchDataFromInputAsync(userInput.Text.ToString(), true);
