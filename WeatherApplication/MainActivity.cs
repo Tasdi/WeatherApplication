@@ -10,6 +10,8 @@ namespace WeatherApplication
     {
         CheckBox celsius, fahren;
         EditText userInput;
+        TextView result;
+        IRequestHandler requestHandler;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -26,6 +28,9 @@ namespace WeatherApplication
             fahren = FindViewById<CheckBox>(Resource.Id.fahrenheit);
             fahren.Checked = false;
 
+            result = FindViewById<TextView>(Resource.Id.resultTxt);
+
+            // Change to searchBtn.Click
             FindViewById<Button>(Resource.Id.searchBtn).Click += (o, e) =>
             {
                 if (fahren.Checked)
