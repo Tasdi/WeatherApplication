@@ -92,11 +92,8 @@ namespace WeatherApplication
 			// aapt resource value: 0x7f040012
 			public const int optionalTxtGrid = 2130968594;
 			
-			// aapt resource value: 0x7f040011
-			public const int pressureRes = 2130968593;
-			
-			// aapt resource value: 0x7f040010
-			public const int pressureTxt = 2130968592;
+			// aapt resource value: 0x7f04001d
+			public const int resCoordinates = 2130968605;
 			
 			// aapt resource value: 0x7f04001a
 			public const int resHumidity = 2130968602;
@@ -104,11 +101,11 @@ namespace WeatherApplication
 			// aapt resource value: 0x7f040018
 			public const int resMaxTemp = 2130968600;
 			
+			// aapt resource value: 0x7f040016
+			public const int resMinTemp = 2130968598;
+			
 			// aapt resource value: 0x7f04001c
 			public const int resPressure = 2130968604;
-			
-			// aapt resource value: 0x7f040016
-			public const int resultTxt = 2130968598;
 			
 			// aapt resource value: 0x7f040004
 			public const int searchBtn = 2130968580;
@@ -130,6 +127,12 @@ namespace WeatherApplication
 			
 			// aapt resource value: 0x7f040013
 			public const int txtOptional = 2130968595;
+			
+			// aapt resource value: 0x7f040011
+			public const int windRes = 2130968593;
+			
+			// aapt resource value: 0x7f040010
+			public const int windTxt = 2130968592;
 			
 			static Id()
 			{

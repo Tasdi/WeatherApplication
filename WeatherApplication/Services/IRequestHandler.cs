@@ -9,11 +9,12 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using WeatherApplication.Models;
 
 namespace WeatherApplication.Services
 {
     interface IRequestHandler
     {
-        string FetchDataFromInputAsync(string cityName, bool checkDegree);
+        WeatherInformation FetchDataFromInputAsync(string cityName);
     }
 }

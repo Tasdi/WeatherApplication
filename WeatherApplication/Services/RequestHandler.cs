@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
@@ -21,31 +19,23 @@ namespace WeatherApplication.Services
             KEY = "2c807f909d802a67435deb6a813afe1c";
         }
 
-        public string FetchDataFromInputAsync(string cityName, bool checkDegree)
+        public WeatherInformation FetchDataFromInputAsync(string cityName)
         {
             // Get correct url of API in string format
             string apiUrl = GetApiUrl(cityName);
             // Use the url string to get json data
             string jsonData = getJsonFromApi(apiUrl);
             // Deserialize json data to models (WeatherInformation)
-            var res = JsonConvert.DeserializeObject<WeatherInformation>(jsonData);
+            WeatherInformation weatherInformation = JsonConvert.DeserializeObject<WeatherInformation>(jsonData);
 
             // If returned json data is null, let the user know
             if (jsonData == "")
             {
-                return "The city does not exist in the database";
-            }
-             
-            // Temp is returned in Kelvin. Convert temp to what user specifies
-            if (checkDegree)
-            {
-                double tempF = (9 / 5 * (res.main.temp - 273)) + 32;
-                return $"country name is {res.sys.country} and the degree is {tempF}";
+                return null;
             }
             else
             {
-                double tempC = res.main.temp - 273.15;
-                return $"city name is {cityName} and the degree is {tempC}";
+                return weatherInformation;
             }
         }
 

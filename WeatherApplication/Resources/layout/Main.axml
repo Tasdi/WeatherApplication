@@ -113,7 +113,8 @@
             android:layout_marginLeft="10dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#202507"
-            android:id="@+id/temperatureRes" />
+            android:id="@+id/temperatureRes"
+            android:tag="2" />
         <TextView
             android:text="Description:"
             android:textSize="15sp"
@@ -134,7 +135,8 @@
             android:layout_marginTop="2dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#202507"
-            android:id="@+id/descriptionRes" />
+            android:id="@+id/descriptionRes"
+            android:tag="4" />
         <TextView
             android:text="Country code:"
             android:textSize="15sp"
@@ -155,9 +157,10 @@
             android:layout_marginTop="2dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#202507"
-            android:id="@+id/countryCodeRes" />
+            android:id="@+id/countryCodeRes"
+            android:tag="6" />
         <TextView
-            android:text="Pressure:"
+            android:text="Wind:"
             android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -165,7 +168,7 @@
             android:layout_marginTop="2dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#202507"
-            android:id="@+id/pressureTxt"
+            android:id="@+id/windTxt"
             android:textStyle="bold" />
         <TextView
             android:text="Res"
@@ -176,7 +179,8 @@
             android:layout_marginTop="2dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#202507"
-            android:id="@+id/pressureRes" />
+            android:id="@+id/windRes"
+            android:tag="8" />
     </GridLayout>
     <GridLayout
         android:minWidth="25px"
@@ -223,7 +227,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:id="@+id/resultTxt" />
+            android:id="@+id/resMinTemp" />
         <CheckBox
             android:text="MaxTemp"
             android:id="@+id/optMaxTemp"
@@ -298,7 +302,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:id="@+id/resPressure"
+            android:id="@+id/resCoordinates"
             android:layout_marginTop="5dp" />
     </GridLayout>
 </LinearLayout>
