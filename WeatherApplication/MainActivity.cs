@@ -20,7 +20,6 @@ namespace WeatherApplication
         TextView temperatureDefault, weatherDescription, countryCode, windSpeed;
         TextView resMinTmp, resMaxTmp, resHumidity, resPressure, resCoordinates;
         
-
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -77,7 +76,17 @@ namespace WeatherApplication
 
             minTmp.Click += (e, o) =>
             {
-                UpdateOptionalComponents(minTmp, resMinTmp, weatherInformation.main.temp_min.ToString());
+                string test = "";
+                if (celsius.Checked)
+                {
+                    test = ConvertTemperature(weatherInformation.main.temp_min, "toCelsius");
+                }
+                else
+                {
+                    test = ConvertTemperature(weatherInformation.main.temp_min, "toFahrenheit");
+                }
+
+                UpdateOptionalComponents(minTmp, resMinTmp, test);
             };
 
             maxTmp.Click += (e, o) =>
@@ -104,13 +113,17 @@ namespace WeatherApplication
 
         private void SetCorrectTemp()
         {
+            string setMin = "";
+            //string setMax = "";
             if (celsius.Checked)
             {
                 fahren.Checked = false;
 
                 if (!userInput.Text.Equals(""))
                 {
-                    ConvertTemperature(weatherInformation.main.temp, "toCelsius");
+                    temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, "toCelsius");
+                    setMin = ConvertTemperature(weatherInformation.main.temp_min, "toCelsius");
+                    UpdateOptionalComponents(minTmp, resMinTmp, setMin);
                 }
             }
             if (fahren.Checked)
@@ -119,12 +132,14 @@ namespace WeatherApplication
 
                 if (!userInput.Text.Equals(""))
                 {
-                    ConvertTemperature(weatherInformation.main.temp, "toFahrenheit");
+                    temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, "toFahrenheit");
+                    setMin = ConvertTemperature(weatherInformation.main.temp_min, "toFahrenheit");
+                    UpdateOptionalComponents(minTmp, resMinTmp, setMin);
                 }
             }
         }
 
-        private void ConvertTemperature(double tempInKelvin, string convertTo)
+        private string ConvertTemperature(double tempInKelvin, string convertTo)
         {
             double convertedTemp = 0;
 
@@ -138,7 +153,7 @@ namespace WeatherApplication
                 convertedTemp = tempInKelvin - 273.15;
             }
 
-            temperatureDefault.Text = convertedTemp.ToString();
+            return convertedTemp.ToString();
         }
 
         private void InitializeGuiComponents()
@@ -195,34 +210,28 @@ namespace WeatherApplication
             if (userInput.Text == "" || Regex.Match(userInput.Text, checkInteger).Success ||
                 Regex.Match(userInput.Text, checkSpecialCharacter).Success)
             {
-                // Print out debug message
-                Toast.MakeText(this, "Invalid input. Please try again", ToastLength.Long).Show();
-                // Will clear the values displayed from response
-                ResetDefaultComponents();
-
+                // Take care of cases if input is invalid
                 invalidSearch = true;
             }
             else
             {
+                // Get weather information
+                weatherInformation = null;
                 weatherInformation = requestHandler.FetchDataFromInputAsync(userInput.Text.ToString());
 
                 if (weatherInformation == null)
                 {
-                    Toast.MakeText(this, $"Could not find any data for '{userInput.Text.ToString()}'", ToastLength.Long).Show();
-                    // Will clear the values displayed from response
-                    ResetDefaultComponents();
-
                     invalidSearch = true;
                 }
                 else
                 {
                     if (fahren.Checked)
                     {
-                        ConvertTemperature(weatherInformation.main.temp, "toFahrenheit");
+                        temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, "toFahrenheit");
                     }
                     else
                     {
-                        ConvertTemperature(weatherInformation.main.temp, "toCelsius");
+                        temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, "toCelsius");
                     }
 
                     windSpeed.Text = weatherInformation.wind.speed.ToString();
@@ -336,4 +345,3 @@ namespace WeatherApplication
         }
     }
 }
-
