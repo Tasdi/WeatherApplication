@@ -42,5 +42,13 @@ namespace WeatherApplicationTest
             Assert.AreEqual("Stockholm", weatherInformation.Name);
         }
 
+        [Test]
+        public void ShouldGetNullIfInputIsNotInDatabase()
+        {
+            string apiUrl1 = requestHandler.GetApiUrl("londo");
+            string result1 = requestHandler.getJsonFromApi(apiUrl1);
+            weatherInformation = JsonConvert.DeserializeObject<Mock<IWeatherInformation>>(result1);
+            Assert.AreEqual(null, weatherInformation);
+        }
     }
 }
