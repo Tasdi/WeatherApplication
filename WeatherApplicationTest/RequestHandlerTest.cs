@@ -59,5 +59,15 @@ namespace WeatherApplicationTest
             Assert.AreEqual("Dhaka",info.name);
 
         }
+
+        [Test]
+        public void testFetchFromInputWhenWrongInput()
+        {
+            WeatherInformation info = new WeatherInformation();
+            info = requestHandler.FetchDataFromInputAsync("daka");
+            Assert.AreEqual(null, info);
+
+        }
+
     }
 }
