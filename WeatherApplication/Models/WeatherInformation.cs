@@ -48,7 +48,7 @@ namespace WeatherApplication.Models
         public double sunset { get; set; }
     }
 
-    public class WeatherInformation
+    public class WeatherInformation : IWeatherInformation
     {
         public Coord coord { get; set; }
         public List<Weather> weather { get; set; }
