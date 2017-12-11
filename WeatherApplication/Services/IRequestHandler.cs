@@ -13,7 +13,7 @@ using WeatherApplication.Models;
 
 namespace WeatherApplication.Services
 {
-    interface IRequestHandler
+    public interface IRequestHandler
     {
         WeatherInformation FetchDataFromInputAsync(string cityName);
     }

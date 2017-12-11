@@ -40,7 +40,7 @@ namespace WeatherApplication.Services
         }
 
         // Take url as input, return the json objects contained in url
-        private string getJsonFromApi(string apiUrl)
+        internal string getJsonFromApi(string apiUrl)
         {
             string dataStream = null;
 
@@ -57,7 +57,7 @@ namespace WeatherApplication.Services
             return dataStream;
         }
 
-        private string RequestWithUrl(string apiUrl, string dataStream)
+        internal string RequestWithUrl(string apiUrl, string dataStream)
         {
             try
             {
@@ -98,7 +98,7 @@ namespace WeatherApplication.Services
             return dataStream;
         }
 
-        private string GetApiUrl(string cityName)
+        internal string GetApiUrl(string cityName)
         {
             // Creating stringbuilder to manipulate string
             StringBuilder sb = new StringBuilder(APIReq);
