@@ -51,8 +51,10 @@ namespace WeatherApplication
                 {
                     fahren.Checked = true;
                 }
-
-                SetCorrectTemp();
+                if (weatherInformation != null)
+                {
+                    SetCorrectTemp();
+                }
             };
 
             // Toggle between Fahrenheit and Celsius checkboxes
@@ -67,7 +69,10 @@ namespace WeatherApplication
                     celsius.Checked = true;
                 }
 
-                SetCorrectTemp();
+                if (weatherInformation != null)
+                {
+                    SetCorrectTemp();
+                }
             };
 
             minTmp.Click += (e, o) =>
