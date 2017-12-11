@@ -239,23 +239,18 @@ namespace WeatherApplication
 
             if (invalidSearch)
             {
-                minTmp.Enabled = false;
-                maxTmp.Enabled = false;
-                humidity.Enabled = false;
-                pressure.Enabled = false;
-                coordinates.Enabled = false;
+                // Print debug info
+                Toast.MakeText(this, $"Could not find any data for '{userInput.Text.ToString()}'", ToastLength.Long).Show();
+                // Will clear the values displayed from response
+                ResetDefaultComponents();
+                ResetOptionalValues();
+            }
+            else
+            {
+                OverrideOptionalValues();
+            }
+        }
 
-                minTmp.Checked = false;
-                maxTmp.Checked = false;
-                humidity.Checked = false;
-                pressure.Checked = false;
-                coordinates.Checked = false;
-
-                UpdateOptionalComponents(minTmp, resMinTmp, "");
-                UpdateOptionalComponents(maxTmp, resMaxTmp, "");
-                UpdateOptionalComponents(humidity, resHumidity, "");
-                UpdateOptionalComponents(pressure, resPressure, "");
-                UpdateOptionalComponents(coordinates, resCoordinates, "");
         private void ResetOptionalValues()
         {
             for (int i = 0; i < optionalGrid.ChildCount; i += 2)
