@@ -256,6 +256,55 @@ namespace WeatherApplication
                 UpdateOptionalComponents(humidity, resHumidity, "");
                 UpdateOptionalComponents(pressure, resPressure, "");
                 UpdateOptionalComponents(coordinates, resCoordinates, "");
+        private void ResetOptionalValues()
+        {
+            for (int i = 0; i < optionalGrid.ChildCount; i += 2)
+            {
+                CheckBox checkBoxChild = (CheckBox)optionalGrid.GetChildAt(i);
+                checkBoxChild.Enabled = false;
+                checkBoxChild.Checked = false;
+
+                TextView txtViewChild = (TextView)optionalGrid.GetChildAt(i + 1);
+
+                UpdateOptionalComponents(checkBoxChild, txtViewChild, "");
+            }
+        }
+
+        private void OverrideOptionalValues()
+        {
+            for (int i = 0; i < optionalGrid.ChildCount; i += 2)
+            {
+                CheckBox checkBoxChild = (CheckBox)optionalGrid.GetChildAt(i);
+
+                if (checkBoxChild.Checked)
+                {
+                    TextView txtViewChild = (TextView)optionalGrid.GetChildAt(i + 1);
+
+                    string childTag = txtViewChild.Tag.ToString();
+
+                    string test = "";
+
+                    switch (childTag)
+                    {
+                        case "1":
+                            SetCorrectTemp();
+                            //UpdateOptionalComponents(checkBoxChild, txtViewChild, weatherInformation.main.temp_min.ToString());
+                            break;
+                        case "3":
+                            UpdateOptionalComponents(checkBoxChild, txtViewChild, weatherInformation.main.temp_max.ToString());
+                            break;
+                        case "5":
+                            UpdateOptionalComponents(checkBoxChild, txtViewChild, weatherInformation.main.humidity.ToString());
+                            break;
+                        case "7":
+                            UpdateOptionalComponents(checkBoxChild, txtViewChild, weatherInformation.main.pressure.ToString());
+                            break;
+                        case "9":
+                            UpdateOptionalComponents(checkBoxChild, txtViewChild, weatherInformation.coord.lon.ToString() + "" + 
+                                weatherInformation.coord.lat.ToString());
+                            break;
+                    }
+                }
             }
         }
 
