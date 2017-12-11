@@ -3,7 +3,7 @@
 
 namespace WeatherApplication.Models
 {
-
+    // The following classes is used to store appropriate json objects to corresponding classes.
     public class Coord
     {
         public double lon { get; set; }
