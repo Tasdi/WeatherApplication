@@ -50,5 +50,14 @@ namespace WeatherApplicationTest
             weatherInformation = JsonConvert.DeserializeObject<Mock<IWeatherInformation>>(result1);
             Assert.AreEqual(null, weatherInformation);
         }
+
+        [Test]
+        public void testFetchFromInput()
+        {
+           WeatherInformation info = new WeatherInformation();
+            info = requestHandler.FetchDataFromInputAsync("dhaka");
+            Assert.AreEqual("Dhaka",info.name);
+
+        }
     }
 }
