@@ -20,7 +20,6 @@ namespace WeatherApplication
         TextView temperatureDefault, weatherDescription, countryCode, windSpeed;
         TextView resMinTmp, resMaxTmp, resHumidity, resPressure, resCoordinates;
         
-
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -77,12 +76,33 @@ namespace WeatherApplication
 
             minTmp.Click += (e, o) =>
             {
-                UpdateOptionalComponents(minTmp, resMinTmp, weatherInformation.main.temp_min.ToString());
+                string min = "";
+                if (celsius.Checked)
+                {
+                    min = ConvertTemperature(weatherInformation.main.temp_min, "toCelsius");
+                }
+                else
+                {
+                    min = ConvertTemperature(weatherInformation.main.temp_min, "toFahrenheit");
+                }
+
+                UpdateOptionalComponents(minTmp, resMinTmp, min);
             };
 
             maxTmp.Click += (e, o) =>
             {
-                UpdateOptionalComponents(maxTmp, resMaxTmp, weatherInformation.main.temp_max.ToString());
+                string max = "";
+
+                if (celsius.Checked)
+                {
+                    max = ConvertTemperature(weatherInformation.main.temp_max, "toCelsius");
+                }
+                else
+                {
+                    max = ConvertTemperature(weatherInformation.main.temp_max, "toFahrenheit");
+                }
+
+                UpdateOptionalComponents(maxTmp, resMaxTmp, max);
             };
 
             humidity.Click += (e, o) =>
@@ -104,13 +124,19 @@ namespace WeatherApplication
 
         private void SetCorrectTemp()
         {
+            string setMin = "";
+            string setMax = "";
             if (celsius.Checked)
             {
                 fahren.Checked = false;
 
                 if (!userInput.Text.Equals(""))
                 {
-                    ConvertTemperature(weatherInformation.main.temp, "toCelsius");
+                    temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, "toCelsius");
+                    setMin = ConvertTemperature(weatherInformation.main.temp_min, "toCelsius");
+                    setMax = ConvertTemperature(weatherInformation.main.temp_max, "toCelsius");
+                    UpdateOptionalComponents(minTmp, resMinTmp, setMin);
+                    UpdateOptionalComponents(maxTmp, resMaxTmp, setMax);
                 }
             }
             if (fahren.Checked)
@@ -119,12 +145,16 @@ namespace WeatherApplication
 
                 if (!userInput.Text.Equals(""))
                 {
-                    ConvertTemperature(weatherInformation.main.temp, "toFahrenheit");
+                    temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, "toFahrenheit");
+                    setMin = ConvertTemperature(weatherInformation.main.temp_min, "toFahrenheit");
+                    setMax = ConvertTemperature(weatherInformation.main.temp_max, "toFahrenheit");
+                    UpdateOptionalComponents(minTmp, resMinTmp, setMin);
+                    UpdateOptionalComponents(maxTmp, resMaxTmp, setMax);
                 }
             }
         }
 
-        private void ConvertTemperature(double tempInKelvin, string convertTo)
+        private string ConvertTemperature(double tempInKelvin, string convertTo)
         {
             double convertedTemp = 0;
 
@@ -138,7 +168,7 @@ namespace WeatherApplication
                 convertedTemp = tempInKelvin - 273.15;
             }
 
-            temperatureDefault.Text = convertedTemp.ToString();
+            return convertedTemp.ToString();
         }
 
         private void InitializeGuiComponents()
@@ -195,34 +225,28 @@ namespace WeatherApplication
             if (userInput.Text == "" || Regex.Match(userInput.Text, checkInteger).Success ||
                 Regex.Match(userInput.Text, checkSpecialCharacter).Success)
             {
-                // Print out debug message
-                Toast.MakeText(this, "Invalid input. Please try again", ToastLength.Long).Show();
-                // Will clear the values displayed from response
-                ResetDefaultComponents();
-
+                // Take care of cases if input is invalid
                 invalidSearch = true;
             }
             else
             {
+                // Get weather information
+                weatherInformation = null;
                 weatherInformation = requestHandler.FetchDataFromInputAsync(userInput.Text.ToString());
 
                 if (weatherInformation == null)
                 {
-                    Toast.MakeText(this, $"Could not find any data for '{userInput.Text.ToString()}'", ToastLength.Long).Show();
-                    // Will clear the values displayed from response
-                    ResetDefaultComponents();
-
                     invalidSearch = true;
                 }
                 else
                 {
                     if (fahren.Checked)
                     {
-                        ConvertTemperature(weatherInformation.main.temp, "toFahrenheit");
+                        temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, "toFahrenheit");
                     }
                     else
                     {
-                        ConvertTemperature(weatherInformation.main.temp, "toCelsius");
+                        temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, "toCelsius");
                     }
 
                     windSpeed.Text = weatherInformation.wind.speed.ToString();
@@ -239,23 +263,62 @@ namespace WeatherApplication
 
             if (invalidSearch)
             {
-                minTmp.Enabled = false;
-                maxTmp.Enabled = false;
-                humidity.Enabled = false;
-                pressure.Enabled = false;
-                coordinates.Enabled = false;
+                // Print debug info
+                Toast.MakeText(this, $"Could not find any data for '{userInput.Text.ToString()}'", ToastLength.Long).Show();
+                // Will clear the values displayed from response
+                ResetDefaultComponents();
+                ResetOptionalValues();
+            }
+            else
+            {
+                OverrideOptionalValues();
+            }
+        }
 
-                minTmp.Checked = false;
-                maxTmp.Checked = false;
-                humidity.Checked = false;
-                pressure.Checked = false;
-                coordinates.Checked = false;
+        private void ResetOptionalValues()
+        {
+            for (int i = 0; i < optionalGrid.ChildCount; i += 2)
+            {
+                CheckBox checkBoxChild = (CheckBox)optionalGrid.GetChildAt(i);
+                checkBoxChild.Enabled = false;
+                checkBoxChild.Checked = false;
 
-                UpdateOptionalComponents(minTmp, resMinTmp, "");
-                UpdateOptionalComponents(maxTmp, resMaxTmp, "");
-                UpdateOptionalComponents(humidity, resHumidity, "");
-                UpdateOptionalComponents(pressure, resPressure, "");
-                UpdateOptionalComponents(coordinates, resCoordinates, "");
+                TextView txtViewChild = (TextView)optionalGrid.GetChildAt(i + 1);
+
+                UpdateOptionalComponents(checkBoxChild, txtViewChild, "");
+            }
+        }
+
+        private void OverrideOptionalValues()
+        {
+            for (int i = 0; i < optionalGrid.ChildCount; i += 2)
+            {
+                CheckBox checkBoxChild = (CheckBox)optionalGrid.GetChildAt(i);
+
+                if (checkBoxChild.Checked)
+                {
+                    TextView txtViewChild = (TextView)optionalGrid.GetChildAt(i + 1);
+
+                    string childTag = txtViewChild.Tag.ToString();
+
+                    switch (childTag)
+                    {
+                        case "1":   
+                        case "3":
+                            SetCorrectTemp();
+                        break;
+                        case "5":
+                            UpdateOptionalComponents(checkBoxChild, txtViewChild, weatherInformation.main.humidity.ToString());
+                            break;
+                        case "7":
+                            UpdateOptionalComponents(checkBoxChild, txtViewChild, weatherInformation.main.pressure.ToString());
+                            break;
+                        case "9":
+                            UpdateOptionalComponents(checkBoxChild, txtViewChild, weatherInformation.coord.lon.ToString() + "" + 
+                                weatherInformation.coord.lat.ToString());
+                            break;
+                    }
+                }
             }
         }
 
@@ -292,4 +355,3 @@ namespace WeatherApplication
         }
     }
 }
-
