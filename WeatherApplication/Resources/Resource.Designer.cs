@@ -74,6 +74,9 @@ namespace WeatherApplication
 			// aapt resource value: 0x7f040000
 			public const int inputGrid = 2130968576;
 			
+			// aapt resource value: 0x7f04001d
+			public const int optCoordinates = 2130968605;
+			
 			// aapt resource value: 0x7f040019
 			public const int optHumidity = 2130968601;
 			
@@ -92,8 +95,8 @@ namespace WeatherApplication
 			// aapt resource value: 0x7f040012
 			public const int optionalTxtGrid = 2130968594;
 			
-			// aapt resource value: 0x7f04001d
-			public const int resCoordinates = 2130968605;
+			// aapt resource value: 0x7f04001e
+			public const int resCoordinates = 2130968606;
 			
 			// aapt resource value: 0x7f04001a
 			public const int resHumidity = 2130968602;

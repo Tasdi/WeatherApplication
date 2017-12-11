@@ -218,7 +218,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:textColor="#202547"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:tag="0" />
         <TextView
             android:text="Res"
             android:textSize="15sp"
@@ -227,7 +228,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:id="@+id/resMinTemp" />
+            android:id="@+id/resMinTemp"
+            android:tag="1" />
         <CheckBox
             android:text="MaxTemp"
             android:id="@+id/optMaxTemp"
@@ -236,7 +238,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:tag="2"/>
         <TextView
             android:text="Res"
             android:textSize="15sp"
@@ -246,7 +249,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:id="@+id/resMaxTemp"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:tag="3"/>
         <CheckBox
             android:text="Humidity"
             android:id="@+id/optHumidity"
@@ -255,7 +259,8 @@
             android:layout_marginLeft="5dp"
             android:textColor="#202547"
             android:layout_marginTop="5dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:tag="4"/>
         <TextView
             android:text="Res"
             android:textSize="15sp"
@@ -265,7 +270,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:id="@+id/resHumidity"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:tag="5"/>
         <CheckBox
             android:text="Pressure"
             android:id="@+id/optPressure"
@@ -274,7 +280,8 @@
             android:layout_marginLeft="5dp"
             android:textColor="#202547"
             android:layout_marginTop="5dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:tag="6"/>
         <TextView
             android:text="Res"
             android:textSize="15sp"
@@ -284,16 +291,18 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:id="@+id/resPressure"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:tag="7"/>
         <CheckBox
             android:text="Coordinates"
-            android:id="@+id/optPressure"
+            android:id="@+id/optCoordinates"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:textColor="#202547"
             android:layout_marginTop="5dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:tag="8"/>
         <TextView
             android:text="Res"
             android:textSize="15sp"
@@ -303,6 +312,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:id="@+id/resCoordinates"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:tag="9"/>
     </GridLayout>
 </LinearLayout>
