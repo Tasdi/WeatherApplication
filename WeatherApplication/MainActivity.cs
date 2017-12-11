@@ -76,22 +76,33 @@ namespace WeatherApplication
 
             minTmp.Click += (e, o) =>
             {
-                string test = "";
+                string min = "";
                 if (celsius.Checked)
                 {
-                    test = ConvertTemperature(weatherInformation.main.temp_min, "toCelsius");
+                    min = ConvertTemperature(weatherInformation.main.temp_min, "toCelsius");
                 }
                 else
                 {
-                    test = ConvertTemperature(weatherInformation.main.temp_min, "toFahrenheit");
+                    min = ConvertTemperature(weatherInformation.main.temp_min, "toFahrenheit");
                 }
 
-                UpdateOptionalComponents(minTmp, resMinTmp, test);
+                UpdateOptionalComponents(minTmp, resMinTmp, min);
             };
 
             maxTmp.Click += (e, o) =>
             {
-                UpdateOptionalComponents(maxTmp, resMaxTmp, weatherInformation.main.temp_max.ToString());
+                string max = "";
+
+                if (celsius.Checked)
+                {
+                    max = ConvertTemperature(weatherInformation.main.temp_max, "toCelsius");
+                }
+                else
+                {
+                    max = ConvertTemperature(weatherInformation.main.temp_max, "toFahrenheit");
+                }
+
+                UpdateOptionalComponents(maxTmp, resMaxTmp, max);
             };
 
             humidity.Click += (e, o) =>
@@ -114,7 +125,7 @@ namespace WeatherApplication
         private void SetCorrectTemp()
         {
             string setMin = "";
-            //string setMax = "";
+            string setMax = "";
             if (celsius.Checked)
             {
                 fahren.Checked = false;
@@ -123,7 +134,9 @@ namespace WeatherApplication
                 {
                     temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, "toCelsius");
                     setMin = ConvertTemperature(weatherInformation.main.temp_min, "toCelsius");
+                    setMax = ConvertTemperature(weatherInformation.main.temp_max, "toCelsius");
                     UpdateOptionalComponents(minTmp, resMinTmp, setMin);
+                    UpdateOptionalComponents(maxTmp, resMaxTmp, setMax);
                 }
             }
             if (fahren.Checked)
@@ -134,7 +147,9 @@ namespace WeatherApplication
                 {
                     temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, "toFahrenheit");
                     setMin = ConvertTemperature(weatherInformation.main.temp_min, "toFahrenheit");
+                    setMax = ConvertTemperature(weatherInformation.main.temp_max, "toFahrenheit");
                     UpdateOptionalComponents(minTmp, resMinTmp, setMin);
+                    UpdateOptionalComponents(maxTmp, resMaxTmp, setMax);
                 }
             }
         }
@@ -286,17 +301,12 @@ namespace WeatherApplication
 
                     string childTag = txtViewChild.Tag.ToString();
 
-                    string test = "";
-
                     switch (childTag)
                     {
-                        case "1":
-                            SetCorrectTemp();
-                            //UpdateOptionalComponents(checkBoxChild, txtViewChild, weatherInformation.main.temp_min.ToString());
-                            break;
+                        case "1":   
                         case "3":
-                            UpdateOptionalComponents(checkBoxChild, txtViewChild, weatherInformation.main.temp_max.ToString());
-                            break;
+                            SetCorrectTemp();
+                        break;
                         case "5":
                             UpdateOptionalComponents(checkBoxChild, txtViewChild, weatherInformation.main.humidity.ToString());
                             break;
