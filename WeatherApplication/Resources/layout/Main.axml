@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:rowCount="1"
         android:columnCount="3"
-        android:id="@+id/something"
+        android:id="@+id/infoGrid"
         android:layout_marginTop="5dp">
         <Button
             android:text="Search"

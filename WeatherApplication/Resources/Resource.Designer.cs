@@ -71,6 +71,9 @@ namespace WeatherApplication
 			// aapt resource value: 0x7f040006
 			public const int fahrenheit = 2130968582;
 			
+			// aapt resource value: 0x7f040003
+			public const int infoGrid = 2130968579;
+			
 			// aapt resource value: 0x7f040000
 			public const int inputGrid = 2130968576;
 			
@@ -112,9 +115,6 @@ namespace WeatherApplication
 			
 			// aapt resource value: 0x7f040004
 			public const int searchBtn = 2130968580;
-			
-			// aapt resource value: 0x7f040003
-			public const int something = 2130968579;
 			
 			// aapt resource value: 0x7f04000b
 			public const int temperatureRes = 2130968587;
