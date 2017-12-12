@@ -4,6 +4,7 @@ using Android.OS;
 using WeatherApplication.Services;
 using WeatherApplication.Models;
 using System.Text.RegularExpressions;
+using System;
 
 namespace WeatherApplication
 {
@@ -196,6 +197,8 @@ namespace WeatherApplication
                 convertedTemp = tempInKelvin - 273.15;
             }
 
+            // Rounds up the temperature to 2 decimal places
+            convertedTemp = Math.Round(convertedTemp, 2);
             return convertedTemp.ToString();
         }
 
