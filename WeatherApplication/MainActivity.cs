@@ -392,23 +392,6 @@ namespace WeatherApplication
          */
         private void UpdateOptionalComponents(CheckBox checkBox, TextView textView, string weatherInfo)
         {
-            /*
-            if (weatherInformation != null)
-            {
-                if (checkBox.Checked)
-                {
-                    textView.Text = weatherInfo;
-                }
-                else
-                {
-                    textView.Text = "";
-                }
-            }
-            else
-            {
-                textView.Text = "";
-            }
-            */
             if (weatherInformation != null && checkBox.Checked)
             {
                 textView.Text = weatherInfo;
