@@ -106,7 +106,7 @@
             android:id="@+id/temperatureTxt"
             android:textStyle="bold" />
         <TextView
-            android:text="Res"
+            android:text=""
             android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -127,7 +127,7 @@
             android:id="@+id/descriptionTxt"
             android:textStyle="bold" />
         <TextView
-            android:text="Res"
+            android:text=""
             android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
             android:id="@+id/countryCodeTxt"
             android:textStyle="bold" />
         <TextView
-            android:text="Res"
+            android:text=""
             android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -171,7 +171,7 @@
             android:id="@+id/windTxt"
             android:textStyle="bold" />
         <TextView
-            android:text="Res"
+            android:text=""
             android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -221,7 +221,7 @@
             android:textStyle="bold"
             android:tag="0" />
         <TextView
-            android:text="Res"
+            android:text=""
             android:textSize="15sp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#202547"
@@ -241,7 +241,7 @@
             android:textStyle="bold"
             android:tag="2"/>
         <TextView
-            android:text="Res"
+            android:text=""
             android:textSize="15sp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#202547"
@@ -262,7 +262,7 @@
             android:textStyle="bold"
             android:tag="4"/>
         <TextView
-            android:text="Res"
+            android:text=""
             android:textSize="15sp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#202547"
@@ -283,7 +283,7 @@
             android:textStyle="bold"
             android:tag="6"/>
         <TextView
-            android:text="Res"
+            android:text=""
             android:textSize="15sp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#202547"
@@ -304,7 +304,7 @@
             android:textStyle="bold"
             android:tag="8"/>
         <TextView
-            android:text="Res"
+            android:text=""
             android:textSize="15sp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#202547"

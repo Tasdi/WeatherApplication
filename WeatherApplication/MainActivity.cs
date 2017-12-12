@@ -11,16 +11,16 @@ namespace WeatherApplication
     [Activity(Label = "WeatherApplication", MainLauncher = true)]
     public class MainActivity : Activity
     {
-        // Declare objects of class that will be needed to request info and show it in application
+        // Declare instances of class that will be needed to request info
         IRequestHandler requestHandler;
         WeatherInformation weatherInformation;
         // Declare components used in the application
         Button searchBtn;
-        CheckBox celsius, fahren, minTmp, maxTmp, humidity, pressure, coordinates;
+        CheckBox celsiusCBox, fahrenCBox, minTmpCBox, maxTmpCBox, humidityCBox, pressureCBox, coordinatesCBox;
         EditText userInput;
         GridLayout defaultGrid, optionalGrid;
-        TextView temperatureDefault, weatherDescription, countryCode, windSpeed;
-        TextView resMinTmp, resMaxTmp, resHumidity, resPressure, resCoordinates;
+        TextView temperatureDefaultView, weatherDescriptionView, countryCodeView, windSpeedView;
+        TextView resMinTmpView, resMaxTmpView, resHumidityView, resPressureView, resCoordinatesView;
         
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -42,18 +42,11 @@ namespace WeatherApplication
             };
 
             // Check whether user selected or unselected Celsius option
-            celsius.Click += (e, o) =>
-            {
-                // If Celsius is choosen by user, set fahrenheit option to unselected
-                if (celsius.Checked)
-                {
-                    fahren.Checked = false;
-                }
-                // If user unselects celsius option, the program selects fahrenheit option
-                else
-                {
-                    fahren.Checked = true;
-                }
+            celsiusCBox.Click += (e, o) =>
+            { 
+                // If Celsius is choosen by user, set fahrenheit option to unselected. Opposite way otherwise
+                fahrenCBox.Checked = !celsiusCBox.Checked;
+
                 // If weather information is retrieved properly, show temp in correct format (depending on user's choice)
                 if (weatherInformation != null)
                 {
@@ -62,18 +55,10 @@ namespace WeatherApplication
             };
 
             // If Fahrenheit is choosen by user, set celsius option to unselected
-            fahren.Click += (e, o) =>
+            fahrenCBox.Click += (e, o) =>
             {
-                // If fahrenheit is choosen by user, set celsius option to unselected
-                if (fahren.Checked)
-                {
-                    celsius.Checked = false;
-                }
-                // If user unselects fahrenheit option, the program selects celsius option
-                else
-                {
-                    celsius.Checked = true;
-                }
+                celsiusCBox.Checked = !fahrenCBox.Checked;
+                
                 // If weather information is retrieved properly, show temp in correct format (depending on user's choice)
                 if (weatherInformation != null)
                 {
@@ -82,62 +67,64 @@ namespace WeatherApplication
             };
 
             // This eventhandler is invoked when user chooses to display min temp
-            minTmp.Click += (e, o) =>
+            minTmpCBox.Click += (e, o) =>
             {
-                // Declare string which will store the correct value of temperature (celsius/fahren)
-                string setCorrectMin = "";
-                // Convert temperature in Kelvin to C/F depending on what user has chosen
-                if (celsius.Checked)
-                {
-                    setCorrectMin = ConvertTemperature(weatherInformation.main.temp_min, "toCelsius");
-                }
-                else
-                {
-                    setCorrectMin = ConvertTemperature(weatherInformation.main.temp_min, "toFahrenheit");
-                }
-                // Update the corresponding components in GUI
-                UpdateOptionalComponents(minTmp, resMinTmp, setCorrectMin);
+                SetOptionalTemp(minTmpCBox, resMinTmpView, weatherInformation.main.temp_min);
             };
 
             // Same functionality as minTmp.Click (above). Difference: max temp instead of min
-            maxTmp.Click += (e, o) =>
+            maxTmpCBox.Click += (e, o) =>
             {
-                string setCorrectMax = "";
-
-                if (celsius.Checked)
-                {
-                    setCorrectMax = ConvertTemperature(weatherInformation.main.temp_max, "toCelsius");
-                }
-                else
-                {
-                    setCorrectMax = ConvertTemperature(weatherInformation.main.temp_max, "toFahrenheit");
-                }
-
-                UpdateOptionalComponents(maxTmp, resMaxTmp, setCorrectMax);
+                SetOptionalTemp(maxTmpCBox, resMaxTmpView, weatherInformation.main.temp_max);
             };
 
             // This eventhandler is invoked if a user wants to display humidity
-            humidity.Click += (e, o) =>
+            humidityCBox.Click += (e, o) =>
             {
                 // Update the corresponding components for humidity in GUI
-                UpdateOptionalComponents(humidity, resHumidity, weatherInformation.main.humidity.ToString());
+                UpdateOptionalComponents(humidityCBox, resHumidityView, weatherInformation.main.humidity.ToString());
             };
 
             // This eventhandler is invoked if a user wants to display the pressure
-            pressure.Click += (e, o) =>
+            pressureCBox.Click += (e, o) =>
             {
                 // Update corresponding component in GUI
-                UpdateOptionalComponents(pressure, resPressure, weatherInformation.main.pressure.ToString());
+                UpdateOptionalComponents(pressureCBox, resPressureView, weatherInformation.main.pressure.ToString());
             };
 
             // This eventhandler is invoked if a user wants to display the coordinates (longitude and latitude)
-            coordinates.Click += (e, o) =>
+            coordinatesCBox.Click += (e, o) =>
             {
                 // Update corresponding components in GUI
-                UpdateOptionalComponents(coordinates, resCoordinates,
+                UpdateOptionalComponents(coordinatesCBox, resCoordinatesView,
                                         weatherInformation.coord.lon.ToString() + " " + weatherInformation.coord.lat.ToString());
             };
         }
+
+        /*
+         * Takes a temperature (min or max), and the related components
+         * (for min or max temp) in GUI as inparameter when user checks
+         * corresponding CheckBox. Sets the correct value in GUI.
+         */
+         private void SetOptionalTemp (CheckBox checkBox, TextView textView, double temperature)
+        {
+            // Declare string which will store the correct value of temperature (celsius/fahren)
+            string correctTemp = "";
+
+            // Convert temperature in Kelvin to C/F depending on what user has chosen
+            if (celsiusCBox.Checked)
+            {
+                correctTemp = ConvertTemperature(temperature, true);
+            }
+            else
+            {
+                correctTemp = ConvertTemperature(temperature, false);
+            }
+
+            // Update the corresponding components in GUI
+            UpdateOptionalComponents(checkBox, textView, correctTemp);
+        }
+
 
         /* This function checks which format the user wants to see the temperature in and updates necessary components
          * in GUI accordingly
@@ -146,53 +133,49 @@ namespace WeatherApplication
         {
             string setMin = "";
             string setMax = "";
+            bool checkChoosenTemp = false;
 
-            if (celsius.Checked)
+            if (celsiusCBox.Checked)
             {
-                fahren.Checked = false;
-
-                if (weatherInformation != null)
-                {
-                    temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, "toCelsius");
-                    setMin = ConvertTemperature(weatherInformation.main.temp_min, "toCelsius");
-                    setMax = ConvertTemperature(weatherInformation.main.temp_max, "toCelsius");
-
-                    UpdateOptionalComponents(minTmp, resMinTmp, setMin);
-                    UpdateOptionalComponents(maxTmp, resMaxTmp, setMax);
-                }
+                fahrenCBox.Checked = false;
+                checkChoosenTemp = true;
             }
-            if (fahren.Checked)
+
+            if (fahrenCBox.Checked)
             {
-                celsius.Checked = false;
+                celsiusCBox.Checked = false;
+                checkChoosenTemp = false;
+            }
+            
+            if (weatherInformation != null)
+            {
+                temperatureDefaultView.Text = ConvertTemperature(weatherInformation.main.temp, checkChoosenTemp);
+                setMin = ConvertTemperature(weatherInformation.main.temp_min, checkChoosenTemp);
+                setMax = ConvertTemperature(weatherInformation.main.temp_max, checkChoosenTemp);
 
-                if (weatherInformation != null)
-                {
-                    temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, "toFahrenheit");
-                    setMin = ConvertTemperature(weatherInformation.main.temp_min, "toFahrenheit");
-                    setMax = ConvertTemperature(weatherInformation.main.temp_max, "toFahrenheit");
-
-                    UpdateOptionalComponents(minTmp, resMinTmp, setMin);
-                    UpdateOptionalComponents(maxTmp, resMaxTmp, setMax);
-                }
+                UpdateOptionalComponents(minTmpCBox, resMinTmpView, setMin);
+                UpdateOptionalComponents(maxTmpCBox, resMaxTmpView, setMax);
             }
         }
 
-        /* This function takes a double and string as inparameters.
+        /* This function takes a double and boolean as inparameters.
          * The value stored in double is the original temperature that
-         * is returned by response in API. The string contains which
+         * is returned by response in API. The boolean indicates which
          * type Kelvin is to be converted to. The function converts
          * the temperatur in kelvin and returns the value in string format.
          */
-        private string ConvertTemperature(double tempInKelvin, string convertTo)
+        private string ConvertTemperature(double tempInKelvin, bool convertTo)
         {
             double convertedTemp = 0;
 
-            if (convertTo.Equals("toFahrenheit"))
+            // If boolean is false, convert from Kelvin to Fahrenheit
+            if (!convertTo)
             {
                 convertedTemp = (9 / 5 * (tempInKelvin - 273)) + 32;
                 
             }
-            else if (convertTo.Equals("toCelsius"))
+            // Convert to celsius otherwise
+            else
             {
                 convertedTemp = tempInKelvin - 273.15;
             }
@@ -208,27 +191,27 @@ namespace WeatherApplication
         private void InitializeGuiComponents()
         {
             // Initialize checkboxes
-            celsius = FindViewById<CheckBox>(Resource.Id.celsius);
-            fahren = FindViewById<CheckBox>(Resource.Id.fahrenheit);
+            celsiusCBox = FindViewById<CheckBox>(Resource.Id.celsius);
+            fahrenCBox = FindViewById<CheckBox>(Resource.Id.fahrenheit);
 
-            minTmp = FindViewById<CheckBox>(Resource.Id.optMinTemp);
-            maxTmp = FindViewById<CheckBox>(Resource.Id.optMaxTemp);
-            humidity = FindViewById<CheckBox>(Resource.Id.optHumidity);
-            pressure = FindViewById<CheckBox>(Resource.Id.optPressure);
-            coordinates = FindViewById<CheckBox>(Resource.Id.optCoordinates);
+            minTmpCBox = FindViewById<CheckBox>(Resource.Id.optMinTemp);
+            maxTmpCBox = FindViewById<CheckBox>(Resource.Id.optMaxTemp);
+            humidityCBox = FindViewById<CheckBox>(Resource.Id.optHumidity);
+            pressureCBox = FindViewById<CheckBox>(Resource.Id.optPressure);
+            coordinatesCBox = FindViewById<CheckBox>(Resource.Id.optCoordinates);
 
             // Initialize textfields
             userInput = FindViewById<EditText>(Resource.Id.cityInput);
-            temperatureDefault = FindViewById<TextView>(Resource.Id.temperatureRes);
-            weatherDescription = FindViewById<TextView>(Resource.Id.descriptionRes);
-            countryCode = FindViewById<TextView>(Resource.Id.countryCodeRes);
-            windSpeed = FindViewById<TextView>(Resource.Id.windRes);
+            temperatureDefaultView = FindViewById<TextView>(Resource.Id.temperatureRes);
+            weatherDescriptionView = FindViewById<TextView>(Resource.Id.descriptionRes);
+            countryCodeView = FindViewById<TextView>(Resource.Id.countryCodeRes);
+            windSpeedView = FindViewById<TextView>(Resource.Id.windRes);
             
-            resMinTmp = FindViewById<TextView>(Resource.Id.resMinTemp);
-            resMaxTmp = FindViewById<TextView>(Resource.Id.resMaxTemp);
-            resHumidity = FindViewById<TextView>(Resource.Id.resHumidity);
-            resPressure = FindViewById<TextView>(Resource.Id.resPressure);
-            resCoordinates = FindViewById<TextView>(Resource.Id.resCoordinates);
+            resMinTmpView = FindViewById<TextView>(Resource.Id.resMinTemp);
+            resMaxTmpView = FindViewById<TextView>(Resource.Id.resMaxTemp);
+            resHumidityView = FindViewById<TextView>(Resource.Id.resHumidity);
+            resPressureView = FindViewById<TextView>(Resource.Id.resPressure);
+            resCoordinatesView = FindViewById<TextView>(Resource.Id.resCoordinates);
 
             // Initialize gridlayouts
             defaultGrid = FindViewById<GridLayout>(Resource.Id.defaultValuesGrid);
@@ -238,14 +221,14 @@ namespace WeatherApplication
             searchBtn = FindViewById<Button>(Resource.Id.searchBtn);
 
             // Set default properties for some of the componenets
-            celsius.Checked = true;
-            fahren.Checked = false;
+            celsiusCBox.Checked = true;
+            fahrenCBox.Checked = false;
 
-            minTmp.Enabled = false;
-            maxTmp.Enabled = false;
-            humidity.Enabled = false;
-            pressure.Enabled = false;
-            coordinates.Enabled = false;
+            minTmpCBox.Enabled = false;
+            maxTmpCBox.Enabled = false;
+            humidityCBox.Enabled = false;
+            pressureCBox.Enabled = false;
+            coordinatesCBox.Enabled = false;
         }
 
         /* This function is called by the eventhandler that is invoked
@@ -257,6 +240,11 @@ namespace WeatherApplication
             // Reg expressions to check whether input is allowed or not
             string checkInteger = @"\d+";
             string checkSpecialCharacter = @"[@#$%&*+\-_(),+':;?.,![\]\s\\/]+$";
+
+            // Remove spaces
+            string input = userInput.Text;
+            input = Regex.Replace(input, @"\s+", "");
+            userInput.Text = input;
 
             bool invalidSearch = false;
 
@@ -272,7 +260,7 @@ namespace WeatherApplication
             else
             {
                 // Get weather information
-                weatherInformation = requestHandler.FetchDataFromInputAsync(userInput.Text.ToString());
+                weatherInformation = requestHandler.FetchDataFromInput(userInput.Text.ToString());
 
                 if (weatherInformation == null)
                 {
@@ -280,26 +268,26 @@ namespace WeatherApplication
                 }
                 else
                 {
-                    if (fahren.Checked)
+                    if (fahrenCBox.Checked)
                     {
-                        temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, "toFahrenheit");
+                        temperatureDefaultView.Text = ConvertTemperature(weatherInformation.main.temp, false);
                     }
                     else
                     {
-                        temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, "toCelsius");
+                        temperatureDefaultView.Text = ConvertTemperature(weatherInformation.main.temp, true);
                     }
 
                     // Sets the default values and displays it on screen
-                    windSpeed.Text = weatherInformation.wind.speed.ToString();
-                    weatherDescription.Text = weatherInformation.weather[0].description.ToString();
-                    countryCode.Text = weatherInformation.sys.country.ToString();
+                    windSpeedView.Text = weatherInformation.wind.speed.ToString();
+                    weatherDescriptionView.Text = weatherInformation.weather[0].description.ToString();
+                    countryCodeView.Text = weatherInformation.sys.country.ToString();
 
                     // A user can now choose to display optional values
-                    minTmp.Enabled = true;
-                    maxTmp.Enabled = true;
-                    humidity.Enabled = true;
-                    pressure.Enabled = true;
-                    coordinates.Enabled = true;
+                    minTmpCBox.Enabled = true;
+                    maxTmpCBox.Enabled = true;
+                    humidityCBox.Enabled = true;
+                    pressureCBox.Enabled = true;
+                    coordinatesCBox.Enabled = true;
                 }
             }
 
@@ -325,7 +313,7 @@ namespace WeatherApplication
          */
         private void ResetOptionalValues()
         {
-            for (int i = 0; i < optionalGrid.ChildCount; i += 2)
+            for (int i = 0; i < optionalGrid.ChildCount; i+=2)
             {
                 CheckBox checkBoxChild = (CheckBox)optionalGrid.GetChildAt(i);
                 checkBoxChild.Enabled = false;
@@ -349,7 +337,7 @@ namespace WeatherApplication
 
                 if (child.Tag != null)
                 {
-                    child.Text = "Value ot found";
+                    child.Text = "Value not found";
                 }
             }
         }
@@ -404,6 +392,7 @@ namespace WeatherApplication
          */
         private void UpdateOptionalComponents(CheckBox checkBox, TextView textView, string weatherInfo)
         {
+            /*
             if (weatherInformation != null)
             {
                 if (checkBox.Checked)
@@ -414,6 +403,15 @@ namespace WeatherApplication
                 {
                     textView.Text = "";
                 }
+            }
+            else
+            {
+                textView.Text = "";
+            }
+            */
+            if (weatherInformation != null && checkBox.Checked)
+            {
+                textView.Text = weatherInfo;
             }
             else
             {

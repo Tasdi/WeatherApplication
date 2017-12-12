@@ -4,12 +4,16 @@
 namespace WeatherApplication.Models
 {
     // The following classes is used to store appropriate json objects to corresponding classes.
+    // It is strcutured according to json format the response is received in.
+
+    // Will store the coordinates from response
     public class Coord
     {
         public double lon { get; set; }
         public double lat { get; set; }
     }
 
+    // This class holds information such as weather description
     public class Weather
     {
         public int id { get; set; }
@@ -18,6 +22,7 @@ namespace WeatherApplication.Models
         public string icon { get; set; }
     }
 
+    // Holds information about temperature, pressure, etc.
     public class Main
     {
         public double temp { get; set; }
@@ -27,6 +32,7 @@ namespace WeatherApplication.Models
         public double temp_max { get; set; }
     }
 
+    // Will store information about wind speed and degree
     public class Wind
     {
         public double speed { get; set; }
@@ -38,6 +44,8 @@ namespace WeatherApplication.Models
         public int all { get; set; }
     }
 
+    // This class holds information such as country code,
+    // time for sunrise, sunset, etc.
     public class Sys
     {
         public int type { get; set; }
@@ -48,6 +56,8 @@ namespace WeatherApplication.Models
         public double sunset { get; set; }
     }
 
+    // This class will be invoked to render weather information
+    // in the GUI
     public class WeatherInformation : IWeatherInformation
     {
         public Coord coord { get; set; }
