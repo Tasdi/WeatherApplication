@@ -11,7 +11,7 @@ namespace WeatherApplication
     [Activity(Label = "WeatherApplication", MainLauncher = true)]
     public class MainActivity : Activity
     {
-        // Declare objects of class that will be needed to request info and show it in application
+        // Declare instances of class that will be needed to request info
         IRequestHandler requestHandler;
         WeatherInformation weatherInformation;
         // Declare components used in the application
@@ -43,17 +43,10 @@ namespace WeatherApplication
 
             // Check whether user selected or unselected Celsius option
             celsius.Click += (e, o) =>
-            {
-                // If Celsius is choosen by user, set fahrenheit option to unselected
-                if (celsius.Checked)
-                {
-                    fahren.Checked = false;
-                }
-                // If user unselects celsius option, the program selects fahrenheit option
-                else
-                {
-                    fahren.Checked = true;
-                }
+            { 
+                // If Celsius is choosen by user, set fahrenheit option to unselected. Opposite way otherwise
+                fahren.Checked = !celsius.Checked;
+
                 // If weather information is retrieved properly, show temp in correct format (depending on user's choice)
                 if (weatherInformation != null)
                 {
@@ -64,16 +57,8 @@ namespace WeatherApplication
             // If Fahrenheit is choosen by user, set celsius option to unselected
             fahren.Click += (e, o) =>
             {
-                // If fahrenheit is choosen by user, set celsius option to unselected
-                if (fahren.Checked)
-                {
-                    celsius.Checked = false;
-                }
-                // If user unselects fahrenheit option, the program selects celsius option
-                else
-                {
-                    celsius.Checked = true;
-                }
+                celsius.Checked = !fahren.Checked;
+                
                 // If weather information is retrieved properly, show temp in correct format (depending on user's choice)
                 if (weatherInformation != null)
                 {
@@ -128,11 +113,11 @@ namespace WeatherApplication
             // Convert temperature in Kelvin to C/F depending on what user has chosen
             if (celsius.Checked)
             {
-                correctTemp = ConvertTemperature(temperature, "toCelsius");
+                correctTemp = ConvertTemperature(temperature, true);
             }
             else
             {
-                correctTemp = ConvertTemperature(temperature, "toFahrenheit");
+                correctTemp = ConvertTemperature(temperature, false);
             }
 
             // Update the corresponding components in GUI
@@ -147,53 +132,49 @@ namespace WeatherApplication
         {
             string setMin = "";
             string setMax = "";
+            bool checkChoosenTemp = false;
 
             if (celsius.Checked)
             {
                 fahren.Checked = false;
-
-                if (weatherInformation != null)
-                {
-                    temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, "toCelsius");
-                    setMin = ConvertTemperature(weatherInformation.main.temp_min, "toCelsius");
-                    setMax = ConvertTemperature(weatherInformation.main.temp_max, "toCelsius");
-
-                    UpdateOptionalComponents(minTmp, resMinTmp, setMin);
-                    UpdateOptionalComponents(maxTmp, resMaxTmp, setMax);
-                }
+                checkChoosenTemp = true;
             }
+
             if (fahren.Checked)
             {
                 celsius.Checked = false;
+                checkChoosenTemp = false;
+            }
+            
+            if (weatherInformation != null)
+            {
+                temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, checkChoosenTemp);
+                setMin = ConvertTemperature(weatherInformation.main.temp_min, checkChoosenTemp);
+                setMax = ConvertTemperature(weatherInformation.main.temp_max, checkChoosenTemp);
 
-                if (weatherInformation != null)
-                {
-                    temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, "toFahrenheit");
-                    setMin = ConvertTemperature(weatherInformation.main.temp_min, "toFahrenheit");
-                    setMax = ConvertTemperature(weatherInformation.main.temp_max, "toFahrenheit");
-
-                    UpdateOptionalComponents(minTmp, resMinTmp, setMin);
-                    UpdateOptionalComponents(maxTmp, resMaxTmp, setMax);
-                }
+                UpdateOptionalComponents(minTmp, resMinTmp, setMin);
+                UpdateOptionalComponents(maxTmp, resMaxTmp, setMax);
             }
         }
 
-        /* This function takes a double and string as inparameters.
+        /* This function takes a double and boolean as inparameters.
          * The value stored in double is the original temperature that
-         * is returned by response in API. The string contains which
+         * is returned by response in API. The boolean indicates which
          * type Kelvin is to be converted to. The function converts
          * the temperatur in kelvin and returns the value in string format.
          */
-        private string ConvertTemperature(double tempInKelvin, string convertTo)
+        private string ConvertTemperature(double tempInKelvin, bool convertTo)
         {
             double convertedTemp = 0;
 
-            if (convertTo.Equals("toFahrenheit"))
+            // If boolean is false, convert from Kelvin to Fahrenheit
+            if (!convertTo)
             {
                 convertedTemp = (9 / 5 * (tempInKelvin - 273)) + 32;
                 
             }
-            else if (convertTo.Equals("toCelsius"))
+            // Convert to celsius otherwise
+            else
             {
                 convertedTemp = tempInKelvin - 273.15;
             }
@@ -288,11 +269,11 @@ namespace WeatherApplication
                 {
                     if (fahren.Checked)
                     {
-                        temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, "toFahrenheit");
+                        temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, false);
                     }
                     else
                     {
-                        temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, "toCelsius");
+                        temperatureDefault.Text = ConvertTemperature(weatherInformation.main.temp, true);
                     }
 
                     // Sets the default values and displays it on screen
@@ -355,7 +336,7 @@ namespace WeatherApplication
 
                 if (child.Tag != null)
                 {
-                    child.Text = "Value ot found";
+                    child.Text = "Value not found";
                 }
             }
         }
@@ -410,6 +391,7 @@ namespace WeatherApplication
          */
         private void UpdateOptionalComponents(CheckBox checkBox, TextView textView, string weatherInfo)
         {
+            /*
             if (weatherInformation != null)
             {
                 if (checkBox.Checked)
@@ -420,6 +402,15 @@ namespace WeatherApplication
                 {
                     textView.Text = "";
                 }
+            }
+            else
+            {
+                textView.Text = "";
+            }
+            */
+            if (weatherInformation != null && checkBox.Checked)
+            {
+                textView.Text = weatherInfo;
             }
             else
             {
