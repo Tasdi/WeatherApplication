@@ -36,13 +36,13 @@ namespace WeatherApplicationTest
         {
             string apiUrl1 = requestHandler.GetApiUrl("london");
             string result1 = requestHandler.GetJsonFromApi(apiUrl1);
-            weatherInformation = JsonConvert.DeserializeObject<Mock<IWeatherInformation>>(result1);
-            Assert.AreEqual("London", weatherInformation.Name);
+            weatherInformation = JsonConvert.DeserializeObject<WeatherInformation>(result1);
+            Assert.AreEqual("London", weatherInformation.name);
 
             string apiUrl2 = requestHandler.GetApiUrl("stockholm");
             string result2 = requestHandler.GetJsonFromApi(apiUrl2);
-            weatherInformation = JsonConvert.DeserializeObject<Mock<IWeatherInformation>>(result2);
-            Assert.AreEqual("Stockholm", weatherInformation.Name);
+            weatherInformation = JsonConvert.DeserializeObject<WeatherInformation>(result2);
+            Assert.AreEqual("Stockholm", weatherInformation.name);
         }
 
         // Tests that weather information is actually null if incorrect value is passed in URL
@@ -51,7 +51,7 @@ namespace WeatherApplicationTest
         {
             string apiUrl1 = requestHandler.GetApiUrl("londo");
             string result1 = requestHandler.GetJsonFromApi(apiUrl1);
-            weatherInformation = JsonConvert.DeserializeObject<Mock<IWeatherInformation>>(result1);
+            weatherInformation = JsonConvert.DeserializeObject<WeatherInformation>(result1);
             Assert.AreEqual(null, weatherInformation);
         }
 
