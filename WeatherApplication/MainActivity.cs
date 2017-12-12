@@ -84,36 +84,13 @@ namespace WeatherApplication
             // This eventhandler is invoked when user chooses to display min temp
             minTmp.Click += (e, o) =>
             {
-                // Declare string which will store the correct value of temperature (celsius/fahren)
-                string setCorrectMin = "";
-                // Convert temperature in Kelvin to C/F depending on what user has chosen
-                if (celsius.Checked)
-                {
-                    setCorrectMin = ConvertTemperature(weatherInformation.main.temp_min, "toCelsius");
-                }
-                else
-                {
-                    setCorrectMin = ConvertTemperature(weatherInformation.main.temp_min, "toFahrenheit");
-                }
-                // Update the corresponding components in GUI
-                UpdateOptionalComponents(minTmp, resMinTmp, setCorrectMin);
+                SetOptionalTemp(minTmp, resMinTmp, weatherInformation.main.temp_min);
             };
 
             // Same functionality as minTmp.Click (above). Difference: max temp instead of min
             maxTmp.Click += (e, o) =>
             {
-                string setCorrectMax = "";
-
-                if (celsius.Checked)
-                {
-                    setCorrectMax = ConvertTemperature(weatherInformation.main.temp_max, "toCelsius");
-                }
-                else
-                {
-                    setCorrectMax = ConvertTemperature(weatherInformation.main.temp_max, "toFahrenheit");
-                }
-
-                UpdateOptionalComponents(maxTmp, resMaxTmp, setCorrectMax);
+                SetOptionalTemp(maxTmp, resMaxTmp, weatherInformation.main.temp_max);
             };
 
             // This eventhandler is invoked if a user wants to display humidity
@@ -138,6 +115,30 @@ namespace WeatherApplication
                                         weatherInformation.coord.lon.ToString() + " " + weatherInformation.coord.lat.ToString());
             };
         }
+
+        /*
+         * Takes a temperature (min or max), and the related components
+         * (for min or max temp) in GUI as inparameter when user checks
+         * corresponding CheckBox. Sets the correct value in GUI.
+         */
+         private void SetOptionalTemp (CheckBox checkBox, TextView textView, double temperature)
+        {
+            // Declare string which will store the correct value of temperature (celsius/fahren)
+            string correctTemp = "";
+            // Convert temperature in Kelvin to C/F depending on what user has chosen
+            if (celsius.Checked)
+            {
+                correctTemp = ConvertTemperature(temperature, "toCelsius");
+            }
+            else
+            {
+                correctTemp = ConvertTemperature(temperature, "toFahrenheit");
+            }
+
+            // Update the corresponding components in GUI
+            UpdateOptionalComponents(checkBox, textView, correctTemp);
+        }
+
 
         /* This function checks which format the user wants to see the temperature in and updates necessary components
          * in GUI accordingly
