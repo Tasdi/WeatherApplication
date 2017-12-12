@@ -258,6 +258,11 @@ namespace WeatherApplication
             string checkInteger = @"\d+";
             string checkSpecialCharacter = @"[@#$%&*+\-_(),+':;?.,![\]\s\\/]+$";
 
+            // Remove spaces
+            string input = userInput.Text;
+            input = Regex.Replace(input, @"\s+", "");
+            userInput.Text = input;
+
             bool invalidSearch = false;
 
             // If input contains invalid characters, let the user know and retry
