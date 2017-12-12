@@ -29,6 +29,7 @@
             android:id="@+id/cityInput"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/background_dark"
             android:layout_marginLeft="5dp" />
     </GridLayout>
     <GridLayout
@@ -45,25 +46,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/searchBtn"
-            android:background="#dde7ff"
+            android:background="#d3d3d3"
             android:textColor="#202547"
             android:textStyle="bold"
-            android:typeface="normal" />
+            android:typeface="normal"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="0.0dp" />
         <CheckBox
             android:text="C°"
             android:textColor="#202547"
             android:textSize="15sp"
             android:id="@+id/celsius"
+            android:layout_marginLeft="2dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textStyle="bold" />
         <CheckBox
             android:text="F°"
             android:textColor="#202547"
             android:textSize="15sp"
             android:id="@+id/fahrenheit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:textStyle="bold" />
     </GridLayout>
     <GridLayout
@@ -160,7 +165,7 @@
             android:id="@+id/countryCodeRes"
             android:tag="6" />
         <TextView
-            android:text="Wind:"
+            android:text="Wind (m/s):"
             android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -239,7 +244,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:textStyle="bold"
-            android:tag="2"/>
+            android:tag="2" />
         <TextView
             android:text=""
             android:textSize="15sp"
@@ -250,9 +255,9 @@
             android:layout_marginLeft="15dp"
             android:id="@+id/resMaxTemp"
             android:layout_marginTop="5dp"
-            android:tag="3"/>
+            android:tag="3" />
         <CheckBox
-            android:text="Humidity"
+            android:text="Humidity (w/m³)"
             android:id="@+id/optHumidity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -260,7 +265,7 @@
             android:textColor="#202547"
             android:layout_marginTop="5dp"
             android:textStyle="bold"
-            android:tag="4"/>
+            android:tag="4" />
         <TextView
             android:text=""
             android:textSize="15sp"
@@ -271,9 +276,9 @@
             android:layout_marginLeft="15dp"
             android:id="@+id/resHumidity"
             android:layout_marginTop="5dp"
-            android:tag="5"/>
+            android:tag="5" />
         <CheckBox
-            android:text="Pressure"
+            android:text="Pressure (Pa)"
             android:id="@+id/optPressure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -281,7 +286,7 @@
             android:textColor="#202547"
             android:layout_marginTop="5dp"
             android:textStyle="bold"
-            android:tag="6"/>
+            android:tag="6" />
         <TextView
             android:text=""
             android:textSize="15sp"
@@ -292,9 +297,9 @@
             android:layout_marginLeft="15dp"
             android:id="@+id/resPressure"
             android:layout_marginTop="5dp"
-            android:tag="7"/>
+            android:tag="7" />
         <CheckBox
-            android:text="Coordinates"
+            android:text="Coordinates (lon:lat)"
             android:id="@+id/optCoordinates"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -302,7 +307,7 @@
             android:textColor="#202547"
             android:layout_marginTop="5dp"
             android:textStyle="bold"
-            android:tag="8"/>
+            android:tag="8" />
         <TextView
             android:text=""
             android:textSize="15sp"
@@ -313,6 +318,6 @@
             android:layout_marginLeft="15dp"
             android:id="@+id/resCoordinates"
             android:layout_marginTop="5dp"
-            android:tag="9"/>
+            android:tag="9" />
     </GridLayout>
 </LinearLayout>

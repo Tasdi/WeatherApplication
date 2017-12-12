@@ -21,6 +21,8 @@ namespace WeatherApplication
         GridLayout defaultGrid, optionalGrid;
         TextView temperatureDefaultView, weatherDescriptionView, countryCodeView, windSpeedView;
         TextView resMinTmpView, resMaxTmpView, resHumidityView, resPressureView, resCoordinatesView;
+
+        RadioButton radioButton;
         
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -97,7 +99,7 @@ namespace WeatherApplication
             {
                 // Update corresponding components in GUI
                 UpdateOptionalComponents(coordinatesCBox, resCoordinatesView,
-                                        weatherInformation.coord.lon.ToString() + " " + weatherInformation.coord.lat.ToString());
+                                        "(" + weatherInformation.coord.lon.ToString() + ":" + weatherInformation.coord.lat.ToString() + ")");
             };
         }
 
@@ -241,9 +243,9 @@ namespace WeatherApplication
             string checkInteger = @"\d+";
             string checkSpecialCharacter = @"[@#$%&*+\-_(),+':;?.,![\]\s\\/]+$";
 
-            // Remove spaces
+            // Remove new lines
             string input = userInput.Text;
-            input = Regex.Replace(input, @"\s+", "");
+            input = Regex.Replace(input, @"\t|\n|\r", "");
             userInput.Text = input;
 
             bool invalidSearch = false;
@@ -374,8 +376,8 @@ namespace WeatherApplication
                             UpdateOptionalComponents(checkBoxChild, txtViewChild, weatherInformation.main.pressure.ToString());
                             break;
                         case "9":
-                            UpdateOptionalComponents(checkBoxChild, txtViewChild, weatherInformation.coord.lon.ToString() + "" + 
-                                weatherInformation.coord.lat.ToString());
+                            UpdateOptionalComponents(checkBoxChild, txtViewChild, "(" + weatherInformation.coord.lon.ToString() + ":" + 
+                                weatherInformation.coord.lat.ToString() + ")");
                             break;
                     }
                 }
