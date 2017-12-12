@@ -9,43 +9,38 @@ namespace WeatherApplication.Services
 {
     public class RequestHandler : IRequestHandler
     {
-        public string APIReq; //= "api.openweathermap.org/data/2.5/weather?q=";
-        public static string KEY; // KEY= "2c807f909d802a67435deb6a813afe1c";
+        public const string REQ_PREFIX = "api.openweathermap.org/data/2.5/weather?q=";
+        public const string KEY = "2c807f909d802a67435deb6a813afe1c";
 
         public RequestHandler()
         {
-            // Initialize variables needed to query API
-            APIReq = "api.openweathermap.org/data/2.5/weather?q=";
-            KEY = "2c807f909d802a67435deb6a813afe1c";
         }
 
-        public WeatherInformation FetchDataFromInputAsync(string cityName)
+        public WeatherInformation FetchDataFromInput(string cityName)
         {
             // Get correct url of API in string format
             string apiUrl = GetApiUrl(cityName);
             // Use the url string to get json data
-            string jsonData = getJsonFromApi(apiUrl);
+            string jsonData = GetJsonFromApi(apiUrl);
             // Deserialize json data to models (WeatherInformation)
             WeatherInformation weatherInformation = JsonConvert.DeserializeObject<WeatherInformation>(jsonData);
 
             // If returned json data is null, let the user know
-            if (jsonData == "")
+            if (weatherInformation == null)
             {
                 return null;
             }
-            else
-            {
-                return weatherInformation;
-            }
+            
+            return weatherInformation;
         }
 
         // Take url as input, return the json objects contained in url
-        internal string getJsonFromApi(string apiUrl)
+        internal string GetJsonFromApi(string apiUrl)
         {
             string dataStream = null;
 
             // Get data from stream in string format
-            dataStream = RequestWithUrl(apiUrl, dataStream);
+            dataStream = RequestWithUrl(apiUrl);
 
             // If a null value is returned, something went wrong. Return empty string
             if(dataStream == null)
@@ -57,8 +52,10 @@ namespace WeatherApplication.Services
             return dataStream;
         }
 
-        internal string RequestWithUrl(string apiUrl, string dataStream)
+        internal string RequestWithUrl(string apiUrl)
         {
+            string dataStream = null;
+
             try
             {
                 // Specify protocol along with url in order to request
@@ -101,7 +98,7 @@ namespace WeatherApplication.Services
         internal string GetApiUrl(string cityName)
         {
             // Creating stringbuilder to manipulate string
-            StringBuilder sb = new StringBuilder(APIReq);
+            StringBuilder sb = new StringBuilder(REQ_PREFIX);
             // Append city name and key to url
             sb.Append($"{cityName}&APPID={KEY}");
             // Return the url in string format

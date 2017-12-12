@@ -32,12 +32,12 @@ namespace WeatherApplicationTest
         public void ShouldGetCorrectJsonFromApi()
         {
             string apiUrl1 = requestHandler.GetApiUrl("london");
-            string result1 = requestHandler.getJsonFromApi(apiUrl1);
+            string result1 = requestHandler.GetJsonFromApi(apiUrl1);
             weatherInformation = JsonConvert.DeserializeObject<Mock<IWeatherInformation>>(result1);
             Assert.AreEqual("London", weatherInformation.Name);
 
             string apiUrl2 = requestHandler.GetApiUrl("stockholm");
-            string result2 = requestHandler.getJsonFromApi(apiUrl2);
+            string result2 = requestHandler.GetJsonFromApi(apiUrl2);
             weatherInformation = JsonConvert.DeserializeObject<Mock<IWeatherInformation>>(result2);
             Assert.AreEqual("Stockholm", weatherInformation.Name);
         }
@@ -46,7 +46,7 @@ namespace WeatherApplicationTest
         public void ShouldGetNullIfInputIsNotInDatabase()
         {
             string apiUrl1 = requestHandler.GetApiUrl("londo");
-            string result1 = requestHandler.getJsonFromApi(apiUrl1);
+            string result1 = requestHandler.GetJsonFromApi(apiUrl1);
             weatherInformation = JsonConvert.DeserializeObject<Mock<IWeatherInformation>>(result1);
             Assert.AreEqual(null, weatherInformation);
         }
@@ -55,7 +55,7 @@ namespace WeatherApplicationTest
         public void testFetchFromInput()
         {
            WeatherInformation info = new WeatherInformation();
-            info = requestHandler.FetchDataFromInputAsync("dhaka");
+            info = requestHandler.FetchDataFromInput("dhaka");
             Assert.AreEqual("Dhaka",info.name);
 
         }
@@ -64,7 +64,7 @@ namespace WeatherApplicationTest
         public void testFetchFromInputWhenWrongInput()
         {
             WeatherInformation info = new WeatherInformation();
-            info = requestHandler.FetchDataFromInputAsync("daka");
+            info = requestHandler.FetchDataFromInput("daka");
             Assert.AreEqual(null, info);
 
         }

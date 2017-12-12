@@ -15,6 +15,6 @@ namespace WeatherApplication.Services
 {
     public interface IRequestHandler
     {
-        WeatherInformation FetchDataFromInputAsync(string cityName);
+        WeatherInformation FetchDataFromInput(string cityName);
     }
 }

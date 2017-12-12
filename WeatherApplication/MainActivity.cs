@@ -260,7 +260,7 @@ namespace WeatherApplication
             else
             {
                 // Get weather information
-                weatherInformation = requestHandler.FetchDataFromInputAsync(userInput.Text.ToString());
+                weatherInformation = requestHandler.FetchDataFromInput(userInput.Text.ToString());
 
                 if (weatherInformation == null)
                 {
