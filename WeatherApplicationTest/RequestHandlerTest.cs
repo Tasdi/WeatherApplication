@@ -10,24 +10,27 @@ namespace WeatherApplicationTest
     public class RequestHandlerTest
     {
         private RequestHandler requestHandler;
-        private Mock<IWeatherInformation> weatherInformation;
+        private WeatherInformation weatherInformation;
 
+        // Initializes set-up for the tests
         [SetUp]
         public void TestSetup()
         {
             requestHandler = new RequestHandler();
-            weatherInformation = new Mock<IWeatherInformation>();
+            weatherInformation = new WeatherInformation();
         }
 
+        // Tests that API url is formatted correctly
         [Test]
         public void ShouldGetCorrectApiUrl()
         {
-            string result = requestHandler.GetApiUrl("hawai");
+            string result = requestHandler.GetApiUrl("hawaii");
             Assert.AreEqual(result,
-                "api.openweathermap.org/data/2.5/weather?q=hawai&APPID=2c807f909d802a67435deb6a813afe1c");
+                "api.openweathermap.org/data/2.5/weather?q=hawaii&APPID=2c807f909d802a67435deb6a813afe1c");
 
         }
 
+        // If user input (city name) exist in API, correct data should be returned
         [Test]
         public void ShouldGetCorrectJsonFromApi()
         {
@@ -42,6 +45,7 @@ namespace WeatherApplicationTest
             Assert.AreEqual("Stockholm", weatherInformation.Name);
         }
 
+        // Tests that weather information is actually null if incorrect value is passed in URL
         [Test]
         public void ShouldGetNullIfInputIsNotInDatabase()
         {
@@ -51,23 +55,23 @@ namespace WeatherApplicationTest
             Assert.AreEqual(null, weatherInformation);
         }
 
+        // Tests that all methods in RequestHandler works properly when input is correct
         [Test]
-        public void testFetchFromInput()
+        public void TestFetchFromInput()
         {
-           WeatherInformation info = new WeatherInformation();
+            WeatherInformation info = new WeatherInformation();
             info = requestHandler.FetchDataFromInput("dhaka");
-            Assert.AreEqual("Dhaka",info.name);
+            Assert.AreEqual("Dhaka", info.name);
 
         }
 
+        // If incorrect input, weather information is null
         [Test]
-        public void testFetchFromInputWhenWrongInput()
+        public void TestFetchFromInputWhenWrongInput()
         {
             WeatherInformation info = new WeatherInformation();
             info = requestHandler.FetchDataFromInput("daka");
             Assert.AreEqual(null, info);
-
         }
-
     }
 }
