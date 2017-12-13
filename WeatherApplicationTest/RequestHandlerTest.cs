@@ -1,5 +1,4 @@
-﻿using Moq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NUnit.Framework;
 using WeatherApplication.Services;
 using WeatherApplication.Models;

@@ -21,8 +21,6 @@ namespace WeatherApplication
         GridLayout defaultGrid, optionalGrid;
         TextView temperatureDefaultView, weatherDescriptionView, countryCodeView, windSpeedView;
         TextView resMinTmpView, resMaxTmpView, resHumidityView, resPressureView, resCoordinatesView;
-
-        RadioButton radioButton;
         
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -99,7 +97,7 @@ namespace WeatherApplication
             {
                 // Update corresponding components in GUI
                 UpdateOptionalComponents(coordinatesCBox, resCoordinatesView,
-                                        "(" + weatherInformation.coord.lon.ToString() + ":" + weatherInformation.coord.lat.ToString() + ")");
+                                        "(" + weatherInformation.coord.lat.ToString() + ":" + weatherInformation.coord.lon.ToString() + ")");
             };
         }
 
@@ -173,8 +171,7 @@ namespace WeatherApplication
             // If boolean is false, convert from Kelvin to Fahrenheit
             if (!convertTo)
             {
-                convertedTemp = (9 / 5 * (tempInKelvin - 273)) + 32;
-                
+                convertedTemp = (tempInKelvin - 273.15) * 1.8 + 32;
             }
             // Convert to celsius otherwise
             else
@@ -318,12 +315,12 @@ namespace WeatherApplication
             for (int i = 0; i < optionalGrid.ChildCount; i+=2)
             {
                 CheckBox checkBoxChild = (CheckBox)optionalGrid.GetChildAt(i);
-                checkBoxChild.Enabled = false;
-                checkBoxChild.Checked = false;
-
-                TextView txtViewChild = (TextView)optionalGrid.GetChildAt(i + 1);
+                TextView txtViewChild = (TextView)optionalGrid.GetChildAt(i+1);
 
                 UpdateOptionalComponents(checkBoxChild, txtViewChild, "");
+
+                checkBoxChild.Enabled = false;
+                checkBoxChild.Checked = false;
             }
         }
 
@@ -353,7 +350,7 @@ namespace WeatherApplication
         {
             // Only need to iterate over necessary components,
             // hence incremented by 2 in each iteration.
-            for (int i = 0; i < optionalGrid.ChildCount; i += 2)
+            for (int i = 0; i < optionalGrid.ChildCount; i+=2)
             {
                 CheckBox checkBoxChild = (CheckBox)optionalGrid.GetChildAt(i);
 
@@ -376,8 +373,8 @@ namespace WeatherApplication
                             UpdateOptionalComponents(checkBoxChild, txtViewChild, weatherInformation.main.pressure.ToString());
                             break;
                         case "9":
-                            UpdateOptionalComponents(checkBoxChild, txtViewChild, "(" + weatherInformation.coord.lon.ToString() + ":" + 
-                                weatherInformation.coord.lat.ToString() + ")");
+                            UpdateOptionalComponents(checkBoxChild, txtViewChild, "(" + weatherInformation.coord.lat.ToString() + ":" + 
+                                weatherInformation.coord.lon.ToString() + ")");
                             break;
                     }
                 }
